@@ -1,7 +1,10 @@
 import { FC } from 'react';
-const About:FC = () => {
+interface Props{
+    name: string;
+}
+const About:FC<Props> = ({name}) => {
     return ( 
-        <h1>About Page</h1>
+        <h1>{name}</h1>
      );
 }
 

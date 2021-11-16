@@ -1,15 +1,20 @@
-import { Link, useNavigate, Routes, Route} from "react-router-dom";
-import React, { useEffect, FC } from 'react';
+import { NavLink, useNavigate, Routes, Route} from "react-router-dom";
+import { useEffect, FC } from 'react';
 import ViewProfile from "../components/ViewProfile";
 import EditProfile from "../components/EditProfile";
+import { useAppSelector} from '../app/hooks';
+import {
+    selectUser,
+    selectLogin
+  } from '../features/auth/authSlice';
 
 interface Props {
-    login: boolean | string;
-   
-    
+    login?: boolean | string;
 }
-const Profile:FC<Props> = ({login}) => {
+const Profile:FC<Props> = () => {
     const navigate = useNavigate();
+    const login = useAppSelector(selectLogin);
+    const user = useAppSelector(selectUser);
 
     useEffect(() => {
         if(!login){
@@ -28,18 +33,18 @@ const Profile:FC<Props> = ({login}) => {
             <div className="container">
                 <ul className="nav nav-tabs">
                     <li className="nav-item">
-                        <Link className="nav-link active" aria-current="page" to={`viewProfile`}>View</Link>
+                        <NavLink className="nav-link" aria-current="page" to={`viewProfile`}>View</NavLink>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to={`editProfile`}>Edit</Link>
+                        <NavLink className="nav-link" to={`editProfile`}>Edit</NavLink>
                     </li>
                     
                     
                 </ul>
 
                 <Routes>
-                    <Route path={`viewProfile`}  element={<ViewProfile/>}/>
-                    <Route path={`editProfile`} element={<EditProfile/>}/>
+                    <Route path={`/viewProfile`}  element={<ViewProfile name={user.name}/>}/>
+                    <Route path={`/editProfile`} element={<EditProfile />}/>
                 </Routes>
                 
             </div>
