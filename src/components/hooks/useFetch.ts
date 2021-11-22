@@ -26,7 +26,12 @@ export const useFetch = (url:string): InitialState=> {
   useEffect(() => {
     setState(state => ({ data: state.data, loading: true, error: null }));
     fetch(url)
-      .then(data => data.json())
+      .then(data => {
+            if(!data.ok){
+                throw Error('Could not fetch data for that resource. ' + data.statusText )
+            }
+          return data.json()
+        })
       .then(y => {
         setTimeout(() => {
           if (isCurrent.current) {
@@ -36,7 +41,7 @@ export const useFetch = (url:string): InitialState=> {
       })
       .catch((err)=>{
         console.log(err.message);
-        setState(state => ({ ...state, error: err.message }))
+        setState(state => ({ ...state, loading: false, error: err.message }))
     });
 
   }, [url, setState]);
