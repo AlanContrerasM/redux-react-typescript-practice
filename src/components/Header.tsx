@@ -8,7 +8,6 @@ import {
     selectLogin,
     logUser,
     logoutUser,
-    UserState
   } from '../features/auth/authSlice';
 
 const Header:FC = () => {
@@ -31,6 +30,7 @@ const Header:FC = () => {
         e.preventDefault();
         //send to our app, so they can update the state.
         // document.getElementById('search').value;
+        navigate(`/pictures/${search}`);
     }
 
     
@@ -67,7 +67,7 @@ const Header:FC = () => {
             </Link>
                 
             <form className="d-flex" onSubmit={handleSubmit}>
-            <input className="form-control me-2" type="search" value={search} onChange={(e)=>setsearch(e.target.value)}placeholder="Search Pics" id="search" aria-label="Search"/>
+            <input className="form-control me-2" type="search" value={search} onChange={(e)=>setsearch(e.target.value)}placeholder="Search Pics" id="search" aria-label="Search" required/>
             <button className="btn btn-outline-success" type="submit">Search</button>
             </form>
             <button className="btn btn-outline-success my-2" onClick={()=>{login?dispatch(logoutUser()): dispatch(logUser(newUser))}}>{login?"logout":"login"}</button>

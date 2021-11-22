@@ -13,6 +13,9 @@ export const useFetch = (url:string): InitialState=> {
   };
   const [state, setState] = useState(initialValue);
 
+
+  
+
   useEffect(() => {
     return () => {
       // called when the component is going to unmount
@@ -23,7 +26,7 @@ export const useFetch = (url:string): InitialState=> {
   useEffect(() => {
     setState(state => ({ data: state.data, loading: true, error: null }));
     fetch(url)
-      .then(x => x.text())
+      .then(data => data.json())
       .then(y => {
         setTimeout(() => {
           if (isCurrent.current) {
@@ -33,9 +36,9 @@ export const useFetch = (url:string): InitialState=> {
       })
       .catch((err)=>{
         console.log(err.message);
-        setState({...state, error: err.message})
+        setState(state => ({ ...state, error: err.message }))
     });
-    
+
   }, [url, setState]);
 
   return state;

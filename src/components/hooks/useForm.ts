@@ -1,9 +1,9 @@
 import {useState, } from 'react'
 
 
-interface Form{title: string; comments: string;}
+// interface Form{title: string; comments: string;}
 
-export const useForm = (initialValues: Form): [Form, (e: React.ChangeEvent<HTMLInputElement>)=> void] => {
+export const useForm = (initialValues: any): [any, (e: React.ChangeEvent<HTMLInputElement>)=> void] => {
     
 
     const [values, setvalues] = useState(initialValues)

@@ -1,5 +1,5 @@
-import { FC, useState } from 'react';
-import { Counter } from './features/counter/Counter';
+import { FC} from 'react';
+// import { Counter } from './features/counter/Counter';
 import './App.css';
 import Header from './components/Header';
 import Home from './pages/Home';
@@ -13,6 +13,7 @@ import { useAppSelector} from './app/hooks';
 import {
   selectLogin
 } from './features/auth/authSlice';
+import Pictures from './pages/Pictures';
 
 
 
@@ -34,6 +35,7 @@ const  App:FC = () => {
         <Route path='/profile/*' element={login?<Profile />: <Navigate to="/"/>}/>
         {/* for params */}
         <Route path='/post/:id' element={<Post/>} />
+        <Route path='/pictures/:search' element={<Pictures/>} />
         <Route path='/tasks/*' element={<Task/>} />
         <Route path="*" element={<NotFound/>} />
       </Routes>
