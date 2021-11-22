@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch} from '../app/hooks';
 import {
@@ -16,6 +16,7 @@ const Header:FC = () => {
     const taskCount = useAppSelector(selectTaskCount);
     const login = useAppSelector(selectLogin);
     const dispatch = useAppDispatch();
+    const [search, setsearch] = useState("")
     
     const newUser = {
         login: true,
@@ -66,7 +67,7 @@ const Header:FC = () => {
             </Link>
                 
             <form className="d-flex" onSubmit={handleSubmit}>
-            <input className="form-control me-2" type="search" placeholder="Search Pics" id="search" aria-label="Search"/>
+            <input className="form-control me-2" type="search" value={search} onChange={(e)=>setsearch(e.target.value)}placeholder="Search Pics" id="search" aria-label="Search"/>
             <button className="btn btn-outline-success" type="submit">Search</button>
             </form>
             <button className="btn btn-outline-success my-2" onClick={()=>{login?dispatch(logoutUser()): dispatch(logUser(newUser))}}>{login?"logout":"login"}</button>

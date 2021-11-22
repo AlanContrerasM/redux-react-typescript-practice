@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useAppSelector, useAppDispatch} from '../app/hooks';
 import {
     selectTasks,
@@ -10,6 +10,7 @@ import {
 const Tasks:FC = () => {
     const tasks = useAppSelector(selectTasks);
     const dispatch = useAppDispatch();
+    const [filter, setFilter] = useState<string>("");
     
 
     const handleEdits = (task:task, newContent:string|undefined = undefined, finished = false)=>{
@@ -30,10 +31,24 @@ const Tasks:FC = () => {
         }
     
       }
+
+      
+
+      const getFiltered = (): task[] => {
+
+        return tasks.filter(task=> Object.values(task).reduce((prev, curr) => prev + curr ,"").toLowerCase().includes(filter.toLowerCase()));
+
+      }
    
     return (  
         <div className="table-responsive text-center">
             <h2>My Current Tasks</h2>
+            <div className='col-lg-6 text-start'>
+                <label><span className="fs-3">Filter tasks: </span>
+                    <input className="me-2" value={filter} onChange={(e)=>{setFilter(e.target.value)}} type="search" placeholder="Search Pics" id="search" aria-label="Search"/>
+                    </label>
+            
+            </div>
             <table className="table table-striped">
             <thead>
                 <tr>
@@ -44,8 +59,8 @@ const Tasks:FC = () => {
                 </tr>
             </thead>
             <tbody>
-                {tasks.map(task=>{
-                    console.log("creating task: ", task.id);
+                {getFiltered().map(task=>{
+                    
                     return (
                     <tr key={task.id}>
                         <td>{task.id}</td>

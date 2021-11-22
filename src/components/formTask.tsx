@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react';
+import React, {FC } from 'react';
 import uniqid from 'uniqid';
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from '../app/hooks';
@@ -6,10 +6,14 @@ import {
   addTask,
   task,
 } from '../features/task/tasksSlice';
+import { useForm } from './hooks/useForm';
 
 const Form:FC = () =>{
-    const [title, setTitle] = useState<string>();
-    const [comments, setComments] = useState<string>();
+
+    const [values, handleChange] = useForm({title: "", comments: ""});
+
+    // const [title, setTitle] = useState<string>();
+    // const [comments, setComments] = useState<string>();
      const dispatch = useAppDispatch();
      const navigate = useNavigate();
     
@@ -20,8 +24,8 @@ const Form:FC = () =>{
         //in this case no validation required. just use required on the form
         const task:task = {
             id: uniqid(),
-            title: title,
-            comments: comments,
+            title: values.title,
+            comments: values.comments,
             editable: false,
         }
         //send to store to add
@@ -37,12 +41,12 @@ const Form:FC = () =>{
                 <label>
                     Title:
                 </label>
-                <input type="text" value={title||""} onChange={(e)=>{setTitle(e.target.value)}} required className="form-control"/>
+                <input type="text" value={values.title} onChange={handleChange} name="title" required className="form-control"/>
                 <br/>
                 <label>
                     Comments:      
                 </label>     
-                <input type="text" value={comments||""} onChange={(e)=>{setComments(e.target.value)}} required className="form-control"/>         
+                <input type="text" value={values.comments} onChange={handleChange} name="comments" required className="form-control"/>         
                 <br/>
                 <button type="submit" className='btn btn-success btn-lg'>Add</button>
             </form>
